@@ -15,13 +15,13 @@ task uses [Honeycomb](https://brown-ccv.github.io/honeycomb-docs/) (also known a
 1. Clone this repo onto your computer
 
 ```
-git clone https://github.com/lucywowen/avoidance_learning_task.git
+git clone https://github.com/lucywowen/avoidance_learning_task_eeg.git
 ```
 
 2. Change directory into the new folder
 
 ```
-cd avoidance_learning_task
+cd avoidance_learning_task_eeg
 ```
 
 3. Set the remote url to your tasks' repo (create a github repo if not yet created)
