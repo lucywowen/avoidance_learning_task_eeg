@@ -1,11 +1,12 @@
 // NOTE - these event codes must match what is in public/config/trigger.js
 const eventCodes = {
-	display: 1,
-	response: 2,
-	feedback: 3,
+	context: 1,
+	choice: 2,
+	response: 3,
+	feedback: 4,
 	fixation: 5,
-	non_fixation: 6,
-	open_task: 11
+	missed: 6,
+	extra: 7
 }
 
 // this is module.exports isntead of just exports as it is also imported into the electron app

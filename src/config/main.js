@@ -16,7 +16,9 @@ const taskVersion = packageInfo.version;
 // As of jspsych 7, we instantiate jsPsych where needed insead of importing it globally.
 // The instance here gives access to utils in jsPsych.turk, for awareness of the mturk environment, if any.
 // The actual task and related utils will use a different instance of jsPsych created after login.
-const jsPsych = initJsPsych()
+const jsPsych = initJsPsych({
+  default_iti: 500
+})
 
 // mapping of letters to key codes
 const keys = {
