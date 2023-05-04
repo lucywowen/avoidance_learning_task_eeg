@@ -502,15 +502,6 @@ function buildTimeline(jsPsych) {
         color = context_array[4];
       }
 
-      // if (val = 'win') { var color = 'reward'; }
-      // else { var color = 'punish'; }
-
-      // If you want to take away counterfactuals half time
-      // if (j == 1) { var cf = false;} 
-      // else if (j == 3) { var cf = false;}
-      // else { var cf = true; }
-
-
       // Append trial (LR).
       var LR = {
         type: jsPsychLearning,

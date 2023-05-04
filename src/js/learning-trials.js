@@ -71,13 +71,13 @@ const info = {
       robot_duration: {
         type: ParameterType.INT,
         pretty_name: 'Robot duration',
-        default: 500,
+        default: 600,
         description: 'Duration of choice indication phase.'
       },
       feedback_duration: {
         type:  ParameterType.INT,
         pretty_name: 'Feedback duration',
-        default: 2000,
+        default: 600,
         description: 'Duration of outcome phase.'
       },
       feedback_win: {
@@ -434,7 +434,7 @@ class LearningPlugin {
     const ITI = () => {
 
       // Draw ITI from normal distribution
-      iti_duration = this.jsPsych.randomization.sampleNormal(800, 200);
+      iti_duration = this.jsPsych.randomization.sampleNormal(1250, 250);
 
       // clear keyboard listener
       this.jsPsych.pluginAPI.cancelAllKeyboardResponses();

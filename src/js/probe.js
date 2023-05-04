@@ -85,8 +85,8 @@ class ProbePlugin {
       desert_4: images['desert_4.jpg'],
     }
   
-    // Initialize HTML.
-    var new_html = `<style>
+    var iti_html = '';
+    iti_html += `<style>
     body {
       height: 100vh;
       max-height: 100vh;
@@ -94,9 +94,33 @@ class ProbePlugin {
       position: fixed;
       background: linear-gradient(0deg, rgba(210,210,210,1) 50%, rgba(230,230,230,1) 100%);
     }
-
+    .jspsych-content-wrapper {
+        background: #606060;
+        z-index: -1;
+    }
     </style>`;
 
+    // Draw task
+    iti_html += '<div class="wrap">';
+    iti_html += '<div style="font-size:60px;position: relative;top: 50%;">+</div>';
+    
+    
+    var new_html = '';
+
+    // Insert CSS (window animation).
+    new_html += `<style>
+    body {
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      position: fixed;
+    }
+    .jspsych-content-wrapper {
+      background: #606060;
+      z-index: -1;
+    }
+    </style>`;
+    
     // Draw task
     new_html += '<div class="wrap">';
 
@@ -151,9 +175,9 @@ class ProbePlugin {
     display_element.innerHTML = new_html;
 
     // trigger for stimulus draw
-    const code = eventCodes.display;
+    const code = eventCodes.choice;
     pdSpotEncode(code);
-    trial.display_code = code;
+    trial.choice_code = code;
 
     // store response
     var response = {
@@ -193,7 +217,7 @@ class ProbePlugin {
       }      
 
       this.jsPsych.pluginAPI.setTimeout(function() {
-        end_trial();
+        ITI();
       }, trial.robot_duration);
 
     };
@@ -220,6 +244,32 @@ class ProbePlugin {
 
     }
 
+    var iti_duration = '';
+
+    const ITI = () => {
+
+      // Draw ITI from normal distribution
+      iti_duration = this.jsPsych.randomization.sampleNormal(1250, 250);
+
+      // clear keyboard listener
+      this.jsPsych.pluginAPI.cancelAllKeyboardResponses();
+      // kill any remaining setTimeout handlers
+      this.jsPsych.pluginAPI.clearAllTimeouts();
+
+      const code = eventCodes.fixation;
+      pdSpotEncode(code);
+      trial.fixation_code = code;
+
+      // draw the background of the canvas
+      display_element.innerHTML = iti_html;
+
+      // set a timeout to end the ITI after a given delay
+      this.jsPsych.pluginAPI.setTimeout(function() {
+        end_trial();
+      }, iti_duration);
+
+    }
+
     var end_trial = () => {
 
       if (typeof trial.stimulus == 'undefined') {
@@ -231,7 +281,7 @@ class ProbePlugin {
         "symbol_R": trial.symbol_R,
         "rt": response.rt,
         "response_code":response.code,
-        "display_code":trial.display_code,
+        "choice_code":trial.choice_code,
         "missed_code":trial.missed_code,
         "stimulus": trial.stimulus,
         "key_press": response.key,
