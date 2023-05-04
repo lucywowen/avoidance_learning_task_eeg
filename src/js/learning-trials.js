@@ -62,6 +62,12 @@ const info = {
         default: 10000,
         description: 'Duration of choice selection phase.'
       },
+      context_duration: {
+        type:  ParameterType.INT,
+        pretty_name: 'context duration',
+        default: 600,
+        description: 'Duration of context.'
+      },
       robot_duration: {
         type: ParameterType.INT,
         pretty_name: 'Robot duration',
@@ -123,6 +129,49 @@ class LearningPlugin {
     desert_3: images['desert_3.jpg'], 
     desert_4: images['desert_4.jpg'],
   }
+
+    var iti_html = '';
+    iti_html += `<style>
+    body {
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      position: fixed;
+      background: linear-gradient(0deg, rgba(210,210,210,1) 50%, rgba(230,230,230,1) 100%);
+    }
+    .jspsych-content-wrapper {
+        background: #606060;
+        z-index: -1;
+    }
+    </style>`;
+
+    // Draw task
+    iti_html += '<div class="wrap">';
+    iti_html += '<div style="font-size:60px;position: relative;top: 50%;">+</div>';
+    
+    var n_html = '';
+
+    // Insert CSS (window animation).
+    n_html += `<style>
+    body {
+      height: 100vh;
+      max-height: 100vh;
+      overflow: hidden;
+      position: fixed;
+    }
+    .jspsych-content-wrapper {
+      background: #606060;
+      z-index: -1;
+    }
+    </style>`;
+
+    // Draw task
+    n_html += '<div class="wrap">';
+
+
+    // Draw background.
+    n_html += `<div class="landscape-sky" style="background: url(${background_images[trial.context]}) repeat top center"</div>`;
+
 
     var new_html = '';
 
@@ -187,20 +236,41 @@ class LearningPlugin {
     new_html += '<div class="shado"></div>'
     new_html += '</div>';
 
-    // // Draw buttons
-    // new_html += "<div class='leanring-choice'>";
-    // new_html += "<button id='right' class='jspsych-btn' style='margin-right: 5px;'>Left &gt; Prev</button>";
-    // new_html += "<button id='left' class='jspsych-btn' style='margin-left: 5px;'>Left &gt;</button></div>";
-
-
     new_html += '</div>';
 
-    // draw
-    display_element.innerHTML = new_html;
+    var PresentContext = () => {
 
-    const code = eventCodes.display;
-    pdSpotEncode(code);
-    trial.display_code = code;
+      const code = eventCodes.context;
+      pdSpotEncode(code);
+      trial.context_code = code;
+
+      
+      // draw
+      display_element.innerHTML = n_html;
+
+      // clear keyboard listener
+      this.jsPsych.pluginAPI.cancelAllKeyboardResponses();
+
+      // kill any remaining setTimeout handlers
+      this.jsPsych.pluginAPI.clearAllTimeouts();
+      
+      // set a timeout to end the context after a given delay
+      this.jsPsych.pluginAPI.setTimeout(function() {
+        present_choice();
+      }, trial.context_duration);
+
+    }
+
+    var present_choice = () => {
+
+      const code = eventCodes.choice;
+      pdSpotEncode(code);
+      trial.choice_code = code;
+
+      // draw the background of the canvas
+      display_element.innerHTML = new_html;
+    
+    }
 
 
     //---------------------------------------//
@@ -214,6 +284,7 @@ class LearningPlugin {
       code: null,
     };
 
+
     // function to handle responses by the subject
     var after_response = (info) => {
 
@@ -221,34 +292,55 @@ class LearningPlugin {
       this.jsPsych.pluginAPI.clearAllTimeouts();
       this.jsPsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
 
-      
-      const code = eventCodes.response;
-      pdSpotEncode(code);
-      response.code = code;
-      
 
-      // record responses
-      response.rt = info.rt;
-      response.key = info.key;
+      if (display_element.querySelector('#ringL') !== null){
 
-      // Visually indicate chosen robot.
-      if (response.key == 'arrowleft') {
-        display_element.querySelector('#ringL').setAttribute('status', 'chosen');
-      } else {
-        display_element.querySelector('#ringR').setAttribute('status', 'chosen');
-      }
-      
-      // Visually indicate chosen robot.
-      if (response.key == 'arrowleft') {
-        display_element.querySelector('#visorL').setAttribute('status', 'chosen');
-      } else {
-        display_element.querySelector('#visorR').setAttribute('status', 'chosen');
-      }      
+        const code = eventCodes.response;
+        pdSpotEncode(code);
+        response.code = code;
+        
+  
+        // record responses
+        response.rt = info.rt;
+        response.key = info.key;
 
-      this.jsPsych.pluginAPI.setTimeout(function() {
-        present_feedback();
-      }, trial.robot_duration);
+        // Visually indicate chosen robot.
+        if (response.key == 'arrowleft') {
+          display_element.querySelector('#ringL').setAttribute('status', 'chosen');
+        } else {
+          display_element.querySelector('#ringR').setAttribute('status', 'chosen');
+        }
+        
+        // Visually indicate chosen robot.
+        if (response.key == 'arrowleft') {
+          display_element.querySelector('#visorL').setAttribute('status', 'chosen');
+        } else {
+          display_element.querySelector('#visorR').setAttribute('status', 'chosen');
+        }  
 
+        this.jsPsych.pluginAPI.setTimeout(function() {
+          present_feedback();
+        }, trial.robot_duration);
+
+      } else {  
+        
+        // Kill any timeout handlers / keyboard listeners
+        this.jsPsych.pluginAPI.clearAllTimeouts();
+        this.jsPsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
+
+
+        const code = eventCodes.extra;
+        pdSpotEncode(code);
+        trial.extra_code = code;
+  
+        // Display warning message.
+        const msg = '<p style="font-size: 20px; line-height: 1.5em">Please only press the buttons when choosing your knights.';
+  
+        display_element.innerHTML = msg;
+  
+        this.jsPsych.pluginAPI.setTimeout(function() {
+          end_trial();
+        }, 5000);}
     };
 
     // function to end trial when it is time
@@ -310,7 +402,7 @@ class LearningPlugin {
       }
 
       this.jsPsych.pluginAPI.setTimeout(function() {
-        end_trial();
+        ITI();
       }, trial.feedback_duration);
 
     };
@@ -337,6 +429,32 @@ class LearningPlugin {
 
     }
 
+    var iti_duration = '';
+
+    const ITI = () => {
+
+      // Draw ITI from normal distribution
+      iti_duration = this.jsPsych.randomization.sampleNormal(800, 200);
+
+      // clear keyboard listener
+      this.jsPsych.pluginAPI.cancelAllKeyboardResponses();
+      // kill any remaining setTimeout handlers
+      this.jsPsych.pluginAPI.clearAllTimeouts();
+
+      const code = eventCodes.fixation;
+      pdSpotEncode(code);
+      trial.fixation_code = code;
+
+      // draw the background of the canvas
+      display_element.innerHTML = iti_html;
+
+      // set a timeout to end the ITI after a given delay
+      this.jsPsych.pluginAPI.setTimeout(function() {
+        end_trial();
+      }, iti_duration);
+
+    }
+
     var end_trial = () =>  {
 
       // gather the data to store for the trial
@@ -348,10 +466,14 @@ class LearningPlugin {
         "correct": trial.correct,
         "context": trial.context,
         "probs": trial.probs,
+        "context_code":trial.context_code,
+        "choice_code":trial.choice_code,
         "response_code":response.code,
-        "display_code":trial.display_code,
-        "missed_code":trial.missed_code,
         "feedback_code":trial.feedback_code,
+        "fixation_code":trial.fixation_code,
+        "missed_code":trial.missed_code,
+        "extra_code":trial.extra_code,
+        "iti_interval":iti_duration,
         "counterfactual":trial.counterfactual,
         "choice": response.key,
         "rt": response.rt,
@@ -365,6 +487,8 @@ class LearningPlugin {
       this.jsPsych.finishTrial(trial_data);
 
     };
+
+    PresentContext();
 
     // start the response listener
     if (trial.choices != 'NO_KEYS') {

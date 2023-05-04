@@ -196,6 +196,7 @@ const getSavePath = (participantID, studyID) => {
   }
 }
 
+
 const getFullPath = (fileName) => {
   return path.join(savePath, fileName)
 }
@@ -221,7 +222,7 @@ ipc.on('data', (event, args) => {
     const dir = app.getPath('userData')
     participantID = args.participant_id
     studyID = args.study_id
-    preSavePath = path.resolve(dir, `pid_${participantID}_${today.getTime()}.json`)
+    preSavePath = path.resolve(dir, `sub-${participantID}_task-avoid_beh.json`)
     startTrial = args.trial_index
     log.info(preSavePath)
     console.log(preSavePath)
