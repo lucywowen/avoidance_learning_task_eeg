@@ -357,10 +357,10 @@ trial(display_element, trial) {
       // Update runes.
       display_element.querySelector('#runeL').innerHTML = trial.symbol_L;
       display_element.querySelector('#runeR').innerHTML = trial.symbol_R;
-
-      const code = eventCodes.display;
+      
+      const code = eventCodes.choice;
       pdSpotEncode(code);
-      trial.display_code = code;
+      trial.choice_code = code;
 
     }
 
@@ -385,7 +385,7 @@ trial(display_element, trial) {
     var trial_data = {
       "rt": response.rt,
       "response_code":response.code,
-      "display_code":trial.display_code,
+      "choice_code":trial.choice_code,
       "feedback_code":trial.feedback_code,
       "stimulus": trial.stimulus,
       "key_press": response.key
