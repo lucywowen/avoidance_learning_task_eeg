@@ -5,8 +5,6 @@ import jsPsychInstructions from '@jspsych/plugin-instructions'
 import jsPsychComprehension from '../js/comprehension'
 import jsPsychMyInstructions from '../js/instructions'
 import jsPsychPractice from '../js/practice'
-import jsPsychHtmlSliderResponse from '@jspsych/plugin-html-slider-response'
-import jsPsychSurveyMultiChoice from '@jspsych/plugin-survey-multi-choice'
 import jsPsychCallFunction from '@jspsych/plugin-call-function'
 import jsPsychImageKeyboardResponse from '@jspsych/plugin-image-keyboard-response';
 import jsPsychHtmlKeyboardResponse from '@jspsych/plugin-html-keyboard-response';
@@ -99,48 +97,9 @@ function buildTimeline(jsPsych) {
     prompt: '<p style="font-size:'+font_size+'px;">Welcome to the experiment. You can press the Left and Right arrow keys to move through the instructions.</p>'
   };
 
-  var instructions_00 = {
-    type: jsPsychInstructions,
-    pages: [
-      '<p style="font-size:'+font_size+'px;">We are first going to start with a few questions about your pain levels.',
-    ],
-  }
-  
-  var pain_01 = {
-    type: jsPsychHtmlSliderResponse,
-    labels: ['<p style="font-size:'+font_size+'px;">no pain', '<p style="font-size:'+font_size+'px;">worst imaginable'],
-    stimulus: '<p style="font-size:'+font_size+'px;">Averaged over the past week, how intense is your pain?</p>',
-  };
-
-  var pain_02 = {
-    type: jsPsychHtmlSliderResponse,
-    labels: ['<p style="font-size:'+font_size+'px;">no pain', '<p style="font-size:'+font_size+'px;">worst imaginable'],
-    stimulus: '<p style="font-size:'+font_size+'px;">Averaged over the past week, how unpleasant is your pain?</p>',
-  };
-
-    var pain_03 = {
-      type: jsPsychHtmlSliderResponse,
-      labels: ['<p style="font-size:'+font_size+'px;">no pain', '<p style="font-size:'+font_size+'px;">worst imaginable'],
-      stimulus: '<p style="font-size:'+font_size+'px;">How much has your pain interfered with your activities <br> over the past week?</p>',
-  };
-
-    var pain_04 = {
-      type: jsPsychSurveyMultiChoice,
-      questions: [
-        {
-          prompt: "How long have you been in pain?",
-          name: 'Pain Duration', 
-          options: ['I am not in pain', '< 2 weeks', '2-4 weeks', '1 – 3 months', '3 – 6 months', 
-          '6 – 12 months', '1 – 5 years', '> 5 years', '> 10 years'], 
-          required: true
-        }
-      ],
-    };
-
   var instructions_01 = {
     type: jsPsychMyInstructions,
     pages: [
-      "We are now starting the experiment.<br><br>Use the left/right arrow keys to navigate the instructions.",
       "In this task, you are picking a team of knights.<br>The knights will look like the ones below.",
       "Each knight will have a <b>unique symbol</b> on its chestplate.<br>This symbol will help you identify each knight.",
       "You'll also pick your team of knights from different places, either the desert or forest.",
@@ -214,7 +173,7 @@ function buildTimeline(jsPsych) {
   if (debug){
     var instructions = {
       timeline: [
-        instructions_00
+        instructions_000
       ],
     };
   }
@@ -222,11 +181,6 @@ function buildTimeline(jsPsych) {
     instructions = {
       timeline: [
         instructions_000,
-        instructions_00, 
-        pain_01,
-        pain_02,
-        pain_03,
-        pain_04,
         instructions_01,
         practice_block_01,
         instructions_02,
