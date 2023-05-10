@@ -173,7 +173,7 @@ function buildTimeline(jsPsych) {
   if (debug){
     var instructions = {
       timeline: [
-        instructions_00
+        instructions_000
       ],
     };
   }
