@@ -5,8 +5,6 @@ import jsPsychInstructions from '@jspsych/plugin-instructions'
 import jsPsychComprehension from '../js/comprehension'
 import jsPsychMyInstructions from '../js/instructions'
 import jsPsychPractice from '../js/practice'
-import jsPsychHtmlSliderResponse from '@jspsych/plugin-html-slider-response'
-import jsPsychSurveyMultiChoice from '@jspsych/plugin-survey-multi-choice'
 import jsPsychCallFunction from '@jspsych/plugin-call-function'
 import jsPsychImageKeyboardResponse from '@jspsych/plugin-image-keyboard-response';
 import jsPsychHtmlKeyboardResponse from '@jspsych/plugin-html-keyboard-response';
