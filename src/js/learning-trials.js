@@ -434,7 +434,7 @@ class LearningPlugin {
     const ITI = () => {
 
       // Draw ITI from normal distribution
-      iti_duration = this.jsPsych.randomization.sampleNormal(1250, 250);
+      iti_duration = this.jsPsych.randomization.sampleNormal(1250, 500);
 
       // clear keyboard listener
       this.jsPsych.pluginAPI.cancelAllKeyboardResponses();
