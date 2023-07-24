@@ -5,8 +5,6 @@ import jsPsychInstructions from '@jspsych/plugin-instructions';
 import jsPsychComprehension from '../js/comprehension';
 import jsPsychMyInstructions from '../js/instructions';
 import jsPsychPractice from '../js/practice';
-import jsPsychHtmlSliderResponse from '@jspsych/plugin-html-slider-response';
-import jsPsychSurveyMultiChoice from '@jspsych/plugin-survey-multi-choice';
 import jsPsychCallFunction from '@jspsych/plugin-call-function';
 import jsPsychImageKeyboardResponse from '@jspsych/plugin-image-keyboard-response';
 import jsPsychHtmlKeyboardResponse from '@jspsych/plugin-html-keyboard-response';
@@ -70,9 +68,6 @@ function buildTimeline(jsPsych) {
   var practice_array = ['forrest_1', 'desert_1'];
   var learn_1_array = ['forrest_2', 'desert_4'];
 
-  console.log(symbol_array_1);
-  // console.log(symbol_array_2);
-
   // Randomize the contexts.
   var context_array = jsPsych.randomization.repeat(practice_array, 1);
   context_array = context_array.concat(['gray']);
@@ -87,7 +82,6 @@ function buildTimeline(jsPsych) {
   // Define correct responses
   var correct_trial_count = 0;
   var total_trial_count = 0;
-  var total_learning_trial_count = 0;
   var total_probe_trial_count = 0;
 
   // Define probabilities (default is all 75/25%)
@@ -110,73 +104,6 @@ function buildTimeline(jsPsych) {
       font_size +
       'px;">Welcome to the experiment. You can press the Left and Right arrow keys to move through the instructions.</p>',
   };
-
-  // var instructions_00 = {
-  //   type: jsPsychInstructions,
-  //   pages: [
-  //     '<p style="font-size:' +
-  //       font_size +
-  //       'px;">We are first going to start with a few questions about your pain levels.',
-  //   ],
-  // };
-
-  // var pain_01 = {
-  //   type: jsPsychHtmlSliderResponse,
-  //   labels: [
-  //     '<p style="font-size:' + font_size + 'px;">no pain',
-  //     '<p style="font-size:' + font_size + 'px;">worst imaginable',
-  //   ],
-  //   stimulus:
-  //     '<p style="font-size:' +
-  //     font_size +
-  //     'px;">Averaged over the past week, how intense is your pain?</p>',
-  // };
-
-  // var pain_02 = {
-  //   type: jsPsychHtmlSliderResponse,
-  //   labels: [
-  //     '<p style="font-size:' + font_size + 'px;">no pain',
-  //     '<p style="font-size:' + font_size + 'px;">worst imaginable',
-  //   ],
-  //   stimulus:
-  //     '<p style="font-size:' +
-  //     font_size +
-  //     'px;">Averaged over the past week, how unpleasant is your pain?</p>',
-  // };
-
-  // var pain_03 = {
-  //   type: jsPsychHtmlSliderResponse,
-  //   labels: [
-  //     '<p style="font-size:' + font_size + 'px;">no pain',
-  //     '<p style="font-size:' + font_size + 'px;">worst imaginable',
-  //   ],
-  //   stimulus:
-  //     '<p style="font-size:' +
-  //     font_size +
-  //     'px;">How much has your pain interfered with your activities <br> over the past week?</p>',
-  // };
-
-  // var pain_04 = {
-  //   type: jsPsychSurveyMultiChoice,
-  //   questions: [
-  //     {
-  //       prompt: 'How long have you been in pain?',
-  //       name: 'Pain Duration',
-  //       options: [
-  //         'I am not in pain',
-  //         '< 2 weeks',
-  //         '2-4 weeks',
-  //         '1 – 3 months',
-  //         '3 – 6 months',
-  //         '6 – 12 months',
-  //         '1 – 5 years',
-  //         '> 5 years',
-  //         '> 10 years',
-  //       ],
-  //       required: true,
-  //     },
-  //   ],
-  // };
 
   var instructions_01 = {
     type: jsPsychMyInstructions,
@@ -252,17 +179,12 @@ function buildTimeline(jsPsych) {
 
   if (debug) {
     var instructions = {
-      timeline: [instructions_00],
+      timeline: [instructions_000],
     };
   } else {
     instructions = {
       timeline: [
         instructions_000,
-        // instructions_00,
-        // pain_01,
-        // pain_02,
-        // pain_03,
-        // pain_04,
         instructions_01,
         practice_block_01,
         instructions_02,
@@ -403,17 +325,6 @@ function buildTimeline(jsPsych) {
   diff_arr_1 = Array(not_reduced_diff_a).fill('lose');
   lose_low_array = lose_low_array.concat(diff_arr_1);
 
-  console.log('win_high_array');
-  console.log(win_high_array);
-  console.log('win_low_array');
-  console.log(win_low_array);
-
-  console.log('lose_high_array');
-  console.log(lose_high_array);
-  console.log('lose_low_array');
-  console.log(lose_low_array);
-  console.log(lose_low_array.length);
-
   var win_high_array_all;
   var win_low_array_all;
   var lose_high_array_all;
@@ -430,8 +341,6 @@ function buildTimeline(jsPsych) {
     lose_high_array_all.push(jsPsych.randomization.repeat(lose_high_array, 1));
     lose_low_array_all.push(jsPsych.randomization.repeat(lose_low_array, 1));
   }
-  console.log('length of arrays');
-  console.log(win_high_array_all.length);
 
   // Iteratively define trials
   for (var i = 0; i < iters; i++) {
@@ -441,7 +350,6 @@ function buildTimeline(jsPsych) {
     // Iterate over unique pairs.
     for (var j = 0; j < 4; j++) {
       // Define metadata.
-      total_learning_trial_count++;
 
       if (j == 0) {
         val = 'win';
@@ -464,31 +372,6 @@ function buildTimeline(jsPsych) {
         prob_val_2 = lose_low_array_all[1];
         color = context_array[4];
       }
-
-      console.log('i');
-      console.log(i);
-      console.log('2 * j + 0');
-      console.log(2 * j + 0);
-      console.log('2 * j + 1');
-      console.log(2 * j + 1);
-
-      console.log('prob_val_1[i]');
-      console.log(prob_val_1[i]);
-
-      console.log('prob_val_2[i]');
-      console.log(prob_val_2[i]);
-
-      console.log(symbol_array_1[2 * j + 0]);
-      console.log(symbol_array_1[2 * j + 1]);
-
-      // console.log('prob_val_2[2 * j + 0]');
-      // console.log(prob_val_2[2 * j + 0][0]);
-
-      // console.log('prob_val_1[2 * j + 0]');
-      // console.log(prob_val_1[2 * j + 0][0]);
-
-      // console.log('prob_val_2[2 * j + 0][i]');
-      // console.log(prob_val_2[2 * j + 0][i][0]);
 
       // Append trial (LR).
       var LR = {
@@ -588,10 +471,6 @@ function buildTimeline(jsPsych) {
     learning_phase_1 = learning_phase_1.concat(jsPsych.randomization.repeat(trials, 1));
   }
 
-  console.log('total learning trials');
-  console.log(total_learning_trial_count);
-  console.log('learning_phase_length');
-  console.log(learning_phase_1.length);
   //------------------------------------//
   // Define probe phase 1.
   //------------------------------------//
@@ -715,8 +594,7 @@ function buildTimeline(jsPsych) {
 
   var final_trial = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<p>You've finished the last task.</p>
-      <p> Thanks for participating!</p>`,
+    stimulus: `<p>You've finished the last task. Thanks for participating!</p>`,
     choices: 'NO_KEYS',
   };
 
