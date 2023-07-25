@@ -78,7 +78,7 @@ const info = {
     feedback_win: {
       type: ParameterType.STRING,
       pretty_name: 'Feedback (win)',
-      default: "+10",
+      default: "+$2",
       description: 'Feedback for win outcome.'
     },
     feedback_zero: {
@@ -90,7 +90,7 @@ const info = {
     feedback_lose: {
       type: ParameterType.STRING,
       pretty_name: 'Feedback (lose)',
-      default: "-10",
+      default: "-$2",
       description: 'Feedback for lose outcome.'
     }
   }
