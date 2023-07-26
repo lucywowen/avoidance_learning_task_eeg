@@ -77,7 +77,7 @@ const info = {
       feedback_duration: {
         type:  ParameterType.INT,
         pretty_name: 'Feedback duration',
-        default: 600,
+        default: 1500,
         description: 'Duration of outcome phase.'
       },
       feedback_win: {
@@ -297,7 +297,7 @@ class LearningPlugin {
 
         const code = eventCodes.response;
         pdSpotEncode(code);
-        response.code = code;
+        trial.response_code = code;
         
   
         // record responses
@@ -419,7 +419,7 @@ class LearningPlugin {
       trial.missed_code = code;
 
       // Display warning message.
-      const msg = '<p style="font-size: 20px; line-height: 1.5em">You did not respond within the allotted time. Please pay more attention next time.<br><br><b>Warning:</b> If you miss too many times, we may end the exepriment early.';
+      const msg = '<p style="font-size: 20px; line-height: 1.5em">You did not respond within the allotted time. Please pay more attention next time.<br><br><b>Warning:</b> If you miss too many times, we may end the experiment early.';
 
       display_element.innerHTML = msg;
 
@@ -468,7 +468,7 @@ class LearningPlugin {
         "probs": trial.probs,
         "context_code":trial.context_code,
         "choice_code":trial.choice_code,
-        "response_code":response.code,
+        "response_code":trial.response_code,
         "feedback_code":trial.feedback_code,
         "fixation_code":trial.fixation_code,
         "missed_code":trial.missed_code,

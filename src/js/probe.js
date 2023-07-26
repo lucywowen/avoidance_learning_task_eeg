@@ -175,7 +175,7 @@ class ProbePlugin {
     display_element.innerHTML = new_html;
 
     // trigger for stimulus draw
-    const code = eventCodes.choice;
+    const code = eventCodes.p_choice;
     pdSpotEncode(code);
     trial.choice_code = code;
 
@@ -194,7 +194,7 @@ class ProbePlugin {
       this.jsPsych.pluginAPI.cancelKeyboardResponse(keyboardListener);
 
       // record responses trigger response
-      const code = eventCodes.response;
+      const code = eventCodes.p_response;
       pdSpotEncode(code);
       response.code = code;
 
@@ -229,7 +229,7 @@ class ProbePlugin {
       this.jsPsych.pluginAPI.clearAllTimeouts();
       this.jsPsych.pluginAPI.cancelAllKeyboardResponses();
 
-      const code = eventCodes.missed;
+      const code = eventCodes.p_missed;
       pdSpotEncode(code);
       trial.missed_code = code;
       
@@ -256,7 +256,7 @@ class ProbePlugin {
       // kill any remaining setTimeout handlers
       this.jsPsych.pluginAPI.clearAllTimeouts();
 
-      const code = eventCodes.fixation;
+      const code = eventCodes.p_fixation;
       pdSpotEncode(code);
       trial.fixation_code = code;
 

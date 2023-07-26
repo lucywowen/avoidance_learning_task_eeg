@@ -76,7 +76,7 @@ function buildTimeline(jsPsych) {
   var debug = false;
 
   // Define missed repsonses count.
-  var missed_threshold = 10;
+  var missed_threshold = 100;
   var missed_responses = 0;
 
   // Define correct responses
@@ -248,6 +248,10 @@ function buildTimeline(jsPsych) {
           'px;">That is the end of the learning phase. Great job! You have made ' +
           Math.round((correct_trial_count / total_trial_count) * 100) +
           '% correct',
+          '<p style="font-size:'+font_size+'px;">In this next part, you will see the same knights as before, but they will be shown in new pair combinations. <br>Again, your job will be to select the knight you would like to join your team.',
+          '<p style="font-size:'+font_size+'px;">As you make your choices, you will not receive any feedback after your choice.',
+          '<p style="font-size:'+font_size+'px;">You should still choose the knight you think is better on each trial.<br>Your choices will still contribute to your performance bonus.',
+          '<p style="font-size:'+font_size+'px;">Get ready to make your selections.<br><br>Choose wisely!'
       ];
     },
   };
@@ -292,9 +296,9 @@ function buildTimeline(jsPsych) {
   var lose_low_array;
 
   if (debug) {
-    iters = 12;
+    iters = 4;
     probe_iters = 9;
-    context_iters = 3;
+    context_iters = 1;
   } else {
     iters = 12;
     probe_iters = 9;

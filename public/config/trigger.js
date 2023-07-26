@@ -9,12 +9,17 @@ const comName = 'COM3'
 
 // NOTE - these event codes must match what is in public/config/trigger.js
 const eventCodes = {
-	display: 1,
-	response: 2,
-	feedback: 3,
+	context: 1,
+	choice: 2,
+	response: 3,
+	feedback: 4,
 	fixation: 5,
 	missed: 6,
-	open_task: 11
+	p_choice: 7,
+	p_response: 8,
+	p_fixation: 9,
+	p_missed: 10,
+	extra: 11
 }
 
 // this is module.exports isntead of just exports as it is also imported into the electron app
