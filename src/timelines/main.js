@@ -73,7 +73,7 @@ function buildTimeline(jsPsych) {
   context_array = context_array.concat(['gray']);
   context_array = context_array.concat(jsPsych.randomization.repeat(learn_1_array, 1));
 
-  var debug = false;
+  var debug =false;
 
   // Define missed repsonses count.
   var missed_threshold = 100;
@@ -598,7 +598,8 @@ function buildTimeline(jsPsych) {
 
   var final_trial = {
     type: jsPsychHtmlKeyboardResponse,
-    stimulus: `<p>You've finished the last task. Thanks for participating!</p>`,
+    stimulus: `<p>You've finished the last task. Thanks for participating!</p>
+      <p><a href="https://brown.co1.qualtrics.com/jfe/form/SV_eVxacnZXKQV5QY6">Click here to return to Prolific and complete the study</a>.</p>`,
     choices: 'NO_KEYS',
   };
 

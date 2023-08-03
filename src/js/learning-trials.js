@@ -65,7 +65,7 @@ const info = {
       context_duration: {
         type:  ParameterType.INT,
         pretty_name: 'context duration',
-        default: 600,
+        default: 6000,
         description: 'Duration of context.'
       },
       robot_duration: {
@@ -434,7 +434,7 @@ class LearningPlugin {
     const ITI = () => {
 
       // Draw ITI from normal distribution
-      iti_duration = this.jsPsych.randomization.sampleNormal(1250, 500);
+      iti_duration = this.jsPsych.randomization.sampleNormal(1500, 500);
 
       // clear keyboard listener
       this.jsPsych.pluginAPI.cancelAllKeyboardResponses();

@@ -51,7 +51,7 @@ const info = {
       robot_duration: {
         type: ParameterType.INT,
         pretty_name: 'Trial duration',
-        default: 500,
+        default: 1000,
         description: 'Duration of choice indication phase.'
       }
     }
@@ -249,7 +249,7 @@ class ProbePlugin {
     const ITI = () => {
 
       // Draw ITI from normal distribution
-      iti_duration = this.jsPsych.randomization.sampleNormal(1250, 250);
+      iti_duration = this.jsPsych.randomization.sampleNormal(1500, 250);
 
       // clear keyboard listener
       this.jsPsych.pluginAPI.cancelAllKeyboardResponses();
